@@ -1,0 +1,12 @@
+{
+    "root": true, //começa do root o eslint
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint" //pro eslint ler typescript
+    ],
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/eslint-recommended",
+      "plugin:@typescript-eslint/recommended"
+    ]
+  }
