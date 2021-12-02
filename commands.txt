@@ -1,0 +1,2 @@
+yarn add module-alias //pra usar alias para navegar nas pastas
+yarn add module-alias
