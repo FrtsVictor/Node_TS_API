@@ -1,0 +1,15 @@
+yarn add module-alias //pra usar alias para navegar nas pastas
+yarn add module-alias
+yarn add -D @typescript-eslint/eslint-plugin eslint @typescript-eslint/parser
+yarn add -D jest ts-jest @types/jest
+yarn add -D supertest @types/supertest    // cria um servidor pra n precisar subir o express quando tiver testando, e adiciona tbm features de assertions 
+yarn add express body-parser @overnightjs/core
+yarn add -D @types/express
+
+"test-functional:" : "jest --projects ./test --runInBand"  //runInBand pra poder rodar sequencial, test end to end tem uma ordem... banco aplicação e parara
+
+TsNode => a ideia é rodar node em cima de um arquivo typescrit (Sem precisar dar um build e rodar o node em cima de um arquivo final de JS) consegue apontar pro Ts compilar e rodar em DEV
+
+TsNode => Compila somente o que mudou pra usar em modo de desenvolvimento, compila muito mais rapido/ Jest tbm usa TsNode (Muito util para desenvolvimento)
+
+yarn add -D ts-node-dev   //Dev tem varias features pra desenvolvimento pique o watch e parara

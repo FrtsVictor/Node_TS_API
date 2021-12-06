@@ -1,0 +1,6 @@
+node_modules/
+dist/
+.txt
+.yarn.lock
+.yarn-error.log
+yarn.lock
