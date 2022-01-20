@@ -1,7 +1,18 @@
-import express, { Router } from 'express';
-import { connection, itemType, tableNames } from '../database/connection';
+import express, { Router, Response } from 'express';
+import { connection, ItemType, tableNames } from '../database/connection';
 
 const locationsRouter = Router();
+
+type CreateLocation = {
+    name: string,
+    image: string,
+    email: string,
+    latitude: number,
+    longitude: number,
+    city: string,
+    uf: string,
+    items: number[]
+}
 
 locationsRouter.post('/', async (req, res) => {
     const {
@@ -13,7 +24,7 @@ locationsRouter.post('/', async (req, res) => {
         city,
         uf,
         items
-    } = req.body;
+    }: CreateLocation = req.body;
 
     const newLocation = {
         name,
@@ -24,40 +35,35 @@ locationsRouter.post('/', async (req, res) => {
         city,
         uf
     }
-
     const transaction = await connection.transaction();
 
-    const savedLocationId = await transaction(tableNames.locations)
-        .insert(newLocation)
-        .returning('id');
+    const location_id = await transaction(tableNames.locations)
+    .insert(newLocation)
+    .returning('id');
 
-    const locationItems = items.map(async (item_id: number) => {
-        const selectedItem: itemType = await transaction(tableNames.items).where('id', item_id).first();
-        
-        console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", selectedItem)
-        await validateItemExist(selectedItem);
 
-        return {
-            item_id,
-            location_id: savedLocationId[0]
-        }
-    });
+    const locationItems = items
+        .map((item_id: number) => {
+            const selectedItem = transaction(tableNames.items).where('id', item_id).first();
 
-    console.log(locationItems)
+            if (!selectedItem) {
+                return res.status(400).json({ message: 'Item not found.' });
+            }
+
+            return {
+                item_id,
+                location_id : location_id[0]
+            }
+        });
 
     await transaction(tableNames.locationItems).insert(locationItems);
+
     await transaction.commit();
 
     return res.json({
-        id: savedLocationId[0],
-        ...newLocation, items
-    })
-})
-
-
-const validateItemExist = async (selectedItem: itemType) => {
-    if (!selectedItem) return  null;
-    //response.status(400).json({ message: 'Item not found.' });
-}
+        id: location_id,
+        ...newLocation
+    });
+});
 
 export default locationsRouter;

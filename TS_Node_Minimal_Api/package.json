@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node-dev --inspect --ignore node_modules src/server.ts",
+    "start": "ts-node-dev --inspect --ignore node_modules src/index.ts",
     "debug": "ts-node-dev --transpile-only --respawn --inspect=4321 --project tsconfig.json src/server.ts",
     "knex-migrate": "knex migrate:latest",
-    "knex-seed": "knex seed:run"
+    "knex-seed": "knex seed:run",
+    "build": "tsc -p tsconfig.json"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +24,7 @@
     "knex": "^0.95.14",
     "nodemon": "^2.0.15",
     "pg": "^8.7.1",
-    "ts-node": "^8.10.2"
+    "ts-node": "^10.4.0",
+    "ts-node-dev": "^1.1.8"
   }
 }

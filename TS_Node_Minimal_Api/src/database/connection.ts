@@ -17,7 +17,7 @@ export type locationType = {
     uf: string
 }
 
-export type itemType = {
+export type ItemType = {
     id?: number,
     title: string,
     image: string
